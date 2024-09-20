@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>División de Números</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>División de Números</h1>
+        <form id="formulario">
+            <label for="numeros">Números (separados por coma):</label>
+            <input type="text" id="numeros" name="numeros" placeholder="10,20,30" required>
+            <label for="divisor">Divisor:</label>
+            <input type="number" id="divisor" name="divisor" placeholder="5" required>
+            <button type="submit">Dividir</button>
+        </form>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        document.getElementById('formulario').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const numeros = document.getElementById('numeros').value;
+            const divisor = document.getElementById('divisor').value;
+
+            const response = await fetch('/dividir', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `numeros=${numeros}&divisor=${divisor}`
+            });
+
+            const data = await response.json();
+            const resultadoDiv = document.getElementById('resultado');
+
+            if (response.ok) {
+                resultadoDiv.innerHTML = `<h2>Resultados: ${data.resultados.join(', ')}</h2>`;
+            } else {
+                resultadoDiv.innerHTML = `<h2 style="color: red;">Error: ${data.error}</h2>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
