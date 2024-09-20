@@ -1,5 +1,3 @@
-﻿# NODE.JS-para-principiantes
-
 # Proyecto: Aprendiendo Node.js
 
 ## Introducción
